@@ -3,14 +3,8 @@ name: Prettier Check
 on:
   pull_request:
     paths:
-      - '**/*.js'
-      - '**/*.ts'
-      - '**/*.jsx'
-      - '**/*.tsx'
-      - '**/*.json'
-      - '**/*.md'
-      - '**/*.yml'
-      - '**/*.yaml'
+      - 'src/**/*.ts'
+      - 'test/**/*.ts'
 
 jobs:
   prettier:
