@@ -1,2 +1,2 @@
-const test='prettier test';
-console.log(test)
+const test = 'prettier test';
+console.log(test);
