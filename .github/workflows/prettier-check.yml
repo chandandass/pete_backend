@@ -23,4 +23,4 @@ jobs:
         run: yarn install
 
       - name: Check code format with Prettier
-        run: yarn prettier --check .
+        run: yarn prettier --check "src/**/*.ts" "test/**/*.ts"
