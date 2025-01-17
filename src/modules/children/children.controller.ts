@@ -26,7 +26,7 @@ export class ChildrenController {
       {
         id: 1234,
         name: 'Emli',
-        dateOfBirth: '2015-06-25',
+        date_of_birth: '2015-06-25',
         gender: 'FEMALE',
       },
     ]; // Replace with actual DB call
@@ -43,7 +43,7 @@ export class ChildrenController {
 
     const newChild = {
       name: createChildDto.name,
-      dateOfBirth: createChildDto.dateOfBirth,
+      date_of_birth: createChildDto.date_of_birth,
       gender: createChildDto.gender,
     };
 
@@ -65,7 +65,7 @@ export class ChildrenController {
     // Simulate updating child in the database (replace with actual DB logic)
     const updatedChild = {
       name: updateChildDto.name,
-      dateOfBirth: updateChildDto.dateOfBirth,
+      date_of_birth: updateChildDto.date_of_birth,
       gender: updateChildDto.gender,
     };
 

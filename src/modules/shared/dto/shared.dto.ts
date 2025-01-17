@@ -19,7 +19,7 @@ export class BaseKidDto {
   name: string;
 
   @IsDateString()
-  dateOfBirth: string;
+  date_of_birth: string;
 
   @IsString()
   gender: string;
