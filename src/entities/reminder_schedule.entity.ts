@@ -2,19 +2,19 @@ import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from 'typeorm';
 import { User } from './user.entity';
 
 @Entity('reminder_schedules')
-export class ReminderSchedule {
+export class reminder_schedule {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @ManyToOne(() => User, (user) => user.reminderSchedules)
+  @ManyToOne(() => User, (user) => user.reminder_schedules)
   user: User;
 
   @Column({ type: 'time' })
-  updateTime: string;
+  update_time: string;
 
   @Column({ type: 'time' })
-  unansweredTime: string;
+  unanswered_time: string;
 
   @Column({ type: 'time' })
-  randomTime: string;
+  random_time: string;
 }

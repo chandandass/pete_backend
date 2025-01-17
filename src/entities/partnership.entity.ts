@@ -10,5 +10,5 @@ export class Partnership {
   user: User;
 
   @Column({ type: 'int' })
-  partnerId: number;
+  partner_id: number;
 }
