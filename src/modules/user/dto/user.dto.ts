@@ -2,37 +2,9 @@ import { Exclude } from 'class-transformer';
 import {
   IsString,
   IsArray,
-  IsDateString,
-  IsNumber,
   IsIn,
 } from 'class-validator';
-
-// Shared DTO for Kid
-export class KidDto {
-  @IsString()
-  name: string;
-
-  @IsDateString()
-  dateOfBirth: string;
-
-  @IsString()
-  gender: string;
-}
-
-// Base User DTO
-export class UserDto {
-  @IsNumber()
-  id: number; // id will be required in UserDto
-
-  @IsString()
-  name: string;
-
-  @IsString()
-  relation: string;
-
-  @IsString()
-  email: string;
-}
+import { BaseKidDto, UserDto } from 'src/modules/shared/dto/shared.dto';
 
 // ReminderSchedules DTO with class-validator
 export class ReminderSchedulesDto {
@@ -58,7 +30,7 @@ export class SignUpDto {
   password: string;
 
   @IsArray()
-  kids: KidDto[]; // Array of kids, validated as an array of KidDto objects
+  kids: BaseKidDto[]; // Array of kids, validated as an array of KidDto objects
 }
 
 // Login DTO
@@ -96,7 +68,7 @@ export class CurrentUserResponse extends UserDto {
   @Exclude() // Exclude the `id` field in the CurrentUserResponse response
   id: number;
 
-  kids: KidDto[];
+  kids: BaseKidDto[];
   reminderSchedules: ReminderSchedulesDto;
 }
 

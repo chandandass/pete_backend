@@ -8,8 +8,8 @@ import {
   UpdateUserResponse,
   ActionResponse,
   CurrentUserResponse,
-  UserDto,
 } from './dto/user.dto';
+import { UserDto } from '../shared/dto/shared.dto';
 
 @Controller('user')
 export class UserController {
