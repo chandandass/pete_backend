@@ -1,7 +1,7 @@
 import { IsInt, IsNotEmpty, IsNumber } from 'class-validator';
-import { BaseKidDto } from 'src/modules/shared/dto/shared.dto';
+import { BaseChildren } from 'src/modules/shared/dto/shared.dto';
 
-export class KidDto extends BaseKidDto {
+export class Children extends BaseChildren {
   @IsNumber()
   id: number;
 }
@@ -9,7 +9,7 @@ export class KidDto extends BaseKidDto {
 export class AddUpdateChildResponse {
   constructor(
     public message: string,
-    public child: BaseKidDto,
+    public child: BaseChildren,
   ) {}
 }
 

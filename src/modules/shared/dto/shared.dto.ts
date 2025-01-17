@@ -1,4 +1,4 @@
-import { IsDateString, IsNumber, IsString } from 'class-validator';
+import { IsDateString, IsIn, IsNumber, IsString } from 'class-validator';
 
 export class UserDto {
   @IsNumber()
@@ -14,15 +14,15 @@ export class UserDto {
   email: string;
 }
 
-export class BaseKidDto {
+export class BaseChildren {
   @IsString()
   name: string;
 
   @IsDateString()
   date_of_birth: string;
 
-  @IsString()
-  gender: string;
+  @IsIn(['MALE', 'FEMALE'])
+  gender: 'MALE' | 'FEMALE';
 }
 // Action Response DTO
 export class ActionResponse {

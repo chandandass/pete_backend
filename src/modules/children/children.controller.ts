@@ -12,17 +12,17 @@ import {
   AddUpdateChildResponse,
   ChildDeletionResponse,
   IdParamDto,
-  KidDto,
+  Children,
 } from './dto/children.dto';
-import { BaseKidDto } from '../shared/dto/shared.dto';
+import { BaseChildren } from '../shared/dto/shared.dto';
 
 @Controller('children')
 export class ChildrenController {
   @Get()
-  async getChildren(@Request() req: any): Promise<KidDto[]> {
+  async getChildren(@Request() req: any): Promise<Children[]> {
     const userId = req.user.userId;
     console.log(userId);
-    const children: KidDto[] = [
+    const children: Children[] = [
       {
         id: 1234,
         name: 'Emli',
@@ -35,7 +35,7 @@ export class ChildrenController {
 
   @Post()
   async addChild(
-    @Body() createChildDto: BaseKidDto,
+    @Body() createChildDto: BaseChildren,
     @Request() req: any,
   ): Promise<AddUpdateChildResponse> {
     const userId = req.user.userId;
@@ -56,7 +56,7 @@ export class ChildrenController {
 
   @Put()
   async updateChild(
-    @Body() updateChildDto: KidDto,
+    @Body() updateChildDto: Children,
     @Request() req: any,
   ): Promise<AddUpdateChildResponse> {
     const userId = req.user.userId; // Retrieve user ID from JWT
