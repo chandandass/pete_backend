@@ -1,9 +1,9 @@
 import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
 import { Child } from './child.entity';
 import { Post } from './post.entity';
-import { ReminderSchedule } from './reminder_schedule.entity';
+import { reminder_schedule } from './reminder_schedule.entity';
 import { Partnership } from './partnership.entity';
-import { TrackReflectionPrompt } from './track_reflection_prompt.entity';
+import { track_reflection_prompt } from './track_reflection_prompt.entity';
 
 @Entity('users')
 export class User {
@@ -22,24 +22,24 @@ export class User {
   @Column({ type: 'enum', enum: ['MOM', 'DAD'] })
   relation: 'MOM' | 'DAD';
 
-  @OneToMany(() => Child, (child) => child.parentUser)
+  @OneToMany(() => Child, (child) => child.parent_user)
   children: Child[];
 
   @OneToMany(() => Post, (post) => post.user)
   posts: Post[];
 
   @OneToMany(
-    () => ReminderSchedule,
-    (reminderSchedule) => reminderSchedule.user,
+    () => reminder_schedule,
+    (reminder_schedule) => reminder_schedule.user,
   )
-  reminderSchedules: ReminderSchedule[];
+  reminder_schedules: reminder_schedule[];
 
   @OneToMany(() => Partnership, (partnership) => partnership.user)
   partnerships: Partnership[];
 
   @OneToMany(
-    () => TrackReflectionPrompt,
-    (trackReflectionPrompt) => trackReflectionPrompt.user,
+    () => track_reflection_prompt,
+    (track_reflection_prompt) => track_reflection_prompt.user,
   )
-  trackReflectionPrompts: TrackReflectionPrompt[];
+  track_reflection_prompts: track_reflection_prompt[];
 }

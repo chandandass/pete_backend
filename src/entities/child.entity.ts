@@ -16,5 +16,5 @@ export class Child {
   gender: 'MALE' | 'FEMALE';
 
   @ManyToOne(() => User, (user) => user.children)
-  parentUser: User;
+  parent_user: User;
 }

@@ -19,23 +19,23 @@ export class Post {
   @Column({ type: 'text', nullable: true })
   description: string;
 
-  @Column({ type: 'enum', enum: ['image', 'text'] })
-  inputType: 'image' | 'text';
+  @Column({ type: 'enum', enum: ['IMAGE', 'TEXT'] })
+  input_type: 'IMAGE' | 'TEXT';
 
   @Column({ type: 'enum', enum: ['FAMILY', 'KID', 'REFLECTION'] })
-  promptType: 'FAMILY' | 'KID' | 'REFLECTION';
+  prompt_type: 'FAMILY' | 'KID' | 'REFLECTION';
 
   @Column({ type: 'enum', enum: ['ANSWERED', 'UNANSWERED'], nullable: true })
   status: 'ANSWERED' | 'UNANSWERED';
 
   @Column({ type: 'date' })
-  createdAt: Date;
+  created_at: Date;
 
   @Column({ type: 'date' })
-  lastUpdate: Date;
+  last_update: Date;
 
   @Column({ type: 'date' })
-  showOrderDate: Date;
+  show_order_date: Date;
 
   @ManyToOne(() => User, (user) => user.posts)
   user: User;
