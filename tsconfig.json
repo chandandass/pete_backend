@@ -6,16 +6,25 @@
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true, // Ensure compatibility with CommonJS/ESModules
     "target": "ES2021",
+    "moduleResolution": "node", // Ensures proper resolution of Node.js modules
     "sourceMap": true,
     "outDir": "./dist",
     "baseUrl": "./",
     "incremental": true,
     "skipLibCheck": true,
-    "strictNullChecks": false,
-    "noImplicitAny": false,
-    "strictBindCallApply": false,
-    "forceConsistentCasingInFileNames": false,
-    "noFallthroughCasesInSwitch": false
-  }
+    "strict": true, // Enables all strict type-checking options
+    "forceConsistentCasingInFileNames": true,
+    "noUnusedLocals": true, // Helps find unused local variables
+    "noUnusedParameters": true, // Helps find unused function parameters
+    "strictPropertyInitialization": false, // Useful for NestJS class properties
+    "strictBindCallApply": true,
+    "noImplicitAny": true,
+    "strictNullChecks": true,
+    "resolveJsonModule": true, // Allows importing JSON files
+    "noFallthroughCasesInSwitch": true
+  },
+  "include": ["src/**/*.ts"], // Include all source files
+  "exclude": ["node_modules", "dist"] // Exclude unnecessary files/folders
 }
