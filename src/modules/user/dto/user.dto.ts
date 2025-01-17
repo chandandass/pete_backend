@@ -1,9 +1,5 @@
 import { Exclude } from 'class-transformer';
-import {
-  IsString,
-  IsArray,
-  IsIn,
-} from 'class-validator';
+import { IsString, IsArray, IsIn } from 'class-validator';
 import { BaseKidDto, UserDto } from 'src/modules/shared/dto/shared.dto';
 
 // ReminderSchedules DTO with class-validator
@@ -90,9 +86,4 @@ export class UpdateUserResponse {
       relation: string;
     },
   ) {}
-}
-
-// Action Response DTO
-export class ActionResponse {
-  constructor(public message: string) {}
 }

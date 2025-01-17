@@ -1,19 +1,19 @@
-import { IsDateString, IsNumber, IsString } from "class-validator";
+import { IsDateString, IsNumber, IsString } from 'class-validator';
 
 export class UserDto {
-    @IsNumber()
-    id: number; // id will be required in UserDto
-  
-    @IsString()
-    name: string;
-  
-    @IsString()
-    relation: string;
-  
-    @IsString()
-    email: string;
-  }
-  
+  @IsNumber()
+  id: number; // id will be required in UserDto
+
+  @IsString()
+  name: string;
+
+  @IsString()
+  relation: string;
+
+  @IsString()
+  email: string;
+}
+
 export class BaseKidDto {
   @IsString()
   name: string;
@@ -23,4 +23,8 @@ export class BaseKidDto {
 
   @IsString()
   gender: string;
+}
+// Action Response DTO
+export class ActionResponse {
+  constructor(public message: string) {}
 }
