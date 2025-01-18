@@ -13,7 +13,7 @@ export class Post {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column({ type: 'varchar', length: 255, nullable: true })
+  @Column({ type: 'varchar', length: 255 })
   title: string;
 
   @Column({ type: 'text', nullable: true })
@@ -36,6 +36,9 @@ export class Post {
 
   @Column({ type: 'date' })
   show_order_date: Date;
+
+  @Column({ type: 'number', nullable: true })
+  child_id: number;
 
   @ManyToOne(() => User, (user) => user.posts)
   user: User;

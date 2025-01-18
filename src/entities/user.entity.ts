@@ -13,7 +13,7 @@ export class User {
   @Column({ type: 'varchar', length: 255 })
   name: string;
 
-  @Column({ type: 'varchar', length: 255, unique: true })
+  @Column({ type: 'varchar', length: 255 })
   email: string;
 
   @Column({ type: 'varchar', length: 255 })
@@ -21,6 +21,12 @@ export class User {
 
   @Column({ type: 'enum', enum: ['MOM', 'DAD'] })
   relation: 'MOM' | 'DAD';
+
+  @Column({
+    type: "timestamp",
+    default: () => "CURRENT_TIMESTAMP",
+  })
+  created_at: Date;
 
   @OneToMany(() => Child, (child) => child.parent_user)
   children: Child[];

@@ -29,7 +29,7 @@ export class SignUpDto {
   password: string;
 
   @IsArray()
-  kids: BaseChildren[]; // Array of kids, validated as an array of Children objects
+  children: BaseChildren[]; // Array of kids, validated as an array of Children objects
 }
 
 // Login DTO

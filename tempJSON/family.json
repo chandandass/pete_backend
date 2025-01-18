@@ -1,0 +1,20 @@
+[
+    {
+      "name": "July 4th",
+      "repeat": 19,
+      "date": "July 4th",
+      "type": "IMAGE"
+    },
+    {
+      "name": "Christmas",
+      "repeat": 19,
+      "date": "December 25th",
+      "type": "IMAGE"
+    },
+    {
+      "name": "Halloween",
+      "repeat": 19,
+      "date": "October 31st",
+      "type": "IMAGE"
+    }
+  ]

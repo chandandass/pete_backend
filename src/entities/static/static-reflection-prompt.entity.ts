@@ -1,7 +1,7 @@
 import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
 
 @Entity('static_reflection-prompt')
-export class Memory {
+export class StaticReflectionPrompt {
   @PrimaryGeneratedColumn()
   id: number;
 
