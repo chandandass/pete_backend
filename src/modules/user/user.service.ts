@@ -46,13 +46,12 @@ export class UserService {
       // Save the Child entities
       await queryRunner.manager.save(children);
       user.children = children;
+
       // Generate and save dynamic prompts
       const posts = await this.promptHandler.getAllPrompts(user);
-      console.log('posts: ', posts[0]);
+
       await queryRunner.manager.save(Post, posts);
-
       await queryRunner.commitTransaction();
-
       return user;
     } catch (error) {
       await queryRunner.rollbackTransaction();
