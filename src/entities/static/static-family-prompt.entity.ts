@@ -12,7 +12,7 @@ export class StaticFamilyPrompt {
   repeat: number;
 
   @Column()
-  date: string;
+  date: Date;
 
   @Column()
   type: string;

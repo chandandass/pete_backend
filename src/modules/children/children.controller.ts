@@ -12,21 +12,21 @@ import {
   AddUpdateChildResponse,
   ChildDeletionResponse,
   IdParamDto,
-  KidDto,
+  Children,
 } from './dto/children.dto';
-import { BaseKidDto } from '../shared/dto/shared.dto';
+import { BaseChildren } from '../shared/dto/shared.dto';
 
 @Controller('children')
 export class ChildrenController {
   @Get()
-  async getChildren(@Request() req: any): Promise<KidDto[]> {
+  async getChildren(@Request() req: any): Promise<Children[]> {
     const userId = req.user.userId;
     console.log(userId);
-    const children: KidDto[] = [
+    const children: Children[] = [
       {
         id: 1234,
         name: 'Emli',
-        dateOfBirth: '2015-06-25',
+        date_of_birth: '2015-06-25',
         gender: 'FEMALE',
       },
     ]; // Replace with actual DB call
@@ -35,7 +35,7 @@ export class ChildrenController {
 
   @Post()
   async addChild(
-    @Body() createChildDto: BaseKidDto,
+    @Body() createChildDto: BaseChildren,
     @Request() req: any,
   ): Promise<AddUpdateChildResponse> {
     const userId = req.user.userId;
@@ -43,7 +43,7 @@ export class ChildrenController {
 
     const newChild = {
       name: createChildDto.name,
-      dateOfBirth: createChildDto.dateOfBirth,
+      date_of_birth: createChildDto.date_of_birth,
       gender: createChildDto.gender,
     };
 
@@ -56,7 +56,7 @@ export class ChildrenController {
 
   @Put()
   async updateChild(
-    @Body() updateChildDto: KidDto,
+    @Body() updateChildDto: Children,
     @Request() req: any,
   ): Promise<AddUpdateChildResponse> {
     const userId = req.user.userId; // Retrieve user ID from JWT
@@ -65,7 +65,7 @@ export class ChildrenController {
     // Simulate updating child in the database (replace with actual DB logic)
     const updatedChild = {
       name: updateChildDto.name,
-      dateOfBirth: updateChildDto.dateOfBirth,
+      date_of_birth: updateChildDto.date_of_birth,
       gender: updateChildDto.gender,
     };
 

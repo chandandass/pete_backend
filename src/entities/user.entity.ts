@@ -1,9 +1,9 @@
 import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
 import { Child } from './child.entity';
 import { Post } from './post.entity';
-import { reminder_schedule } from './reminder_schedule.entity';
+import { ReminderSchedule } from './reminder_schedule.entity';
 import { Partnership } from './partnership.entity';
-import { track_reflection_prompt } from './track_reflection_prompt.entity';
+import { TrackReflectionPrompt } from './track_reflection_prompt.entity';
 
 @Entity('users')
 export class User {
@@ -13,7 +13,7 @@ export class User {
   @Column({ type: 'varchar', length: 255 })
   name: string;
 
-  @Column({ type: 'varchar', length: 255, unique: true })
+  @Column({ type: 'varchar', length: 255 })
   email: string;
 
   @Column({ type: 'varchar', length: 255 })
@@ -22,6 +22,12 @@ export class User {
   @Column({ type: 'enum', enum: ['MOM', 'DAD'] })
   relation: 'MOM' | 'DAD';
 
+  @Column({
+    type: 'timestamp',
+    default: () => 'CURRENT_TIMESTAMP',
+  })
+  created_at: Date;
+
   @OneToMany(() => Child, (child) => child.parent_user)
   children: Child[];
 
@@ -29,17 +35,17 @@ export class User {
   posts: Post[];
 
   @OneToMany(
-    () => reminder_schedule,
-    (reminder_schedule) => reminder_schedule.user,
+    () => ReminderSchedule,
+    (ReminderSchedule) => ReminderSchedule.user,
   )
-  reminder_schedules: reminder_schedule[];
+  ReminderSchedules: ReminderSchedule[];
 
   @OneToMany(() => Partnership, (partnership) => partnership.user)
   partnerships: Partnership[];
 
   @OneToMany(
-    () => track_reflection_prompt,
-    (track_reflection_prompt) => track_reflection_prompt.user,
+    () => TrackReflectionPrompt,
+    (TrackReflectionPrompt) => TrackReflectionPrompt.user,
   )
-  track_reflection_prompts: track_reflection_prompt[];
+  TrackReflectionPrompts: TrackReflectionPrompt[];
 }

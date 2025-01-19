@@ -10,7 +10,7 @@ export class Child {
   name: string;
 
   @Column({ type: 'date' })
-  dateOfBirth: Date;
+  date_of_birth: Date;
 
   @Column({ type: 'enum', enum: ['MALE', 'FEMALE'] })
   gender: 'MALE' | 'FEMALE';

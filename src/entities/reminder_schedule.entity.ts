@@ -2,11 +2,11 @@ import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from 'typeorm';
 import { User } from './user.entity';
 
 @Entity('reminder_schedules')
-export class reminder_schedule {
+export class ReminderSchedule {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @ManyToOne(() => User, (user) => user.reminder_schedules)
+  @ManyToOne(() => User, (user) => user.ReminderSchedules)
   user: User;
 
   @Column({ type: 'time' })

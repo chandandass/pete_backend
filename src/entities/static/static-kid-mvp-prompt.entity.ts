@@ -1,7 +1,7 @@
 import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
 
-@Entity('static_kid_mvp_prompt')
-export class Milestone {
+@Entity('static_kid_prompt')
+export class StaticKidPrompt {
   @PrimaryGeneratedColumn()
   id: number;
 
@@ -9,7 +9,8 @@ export class Milestone {
   relative_to_birth: number;
 
   @Column({ nullable: true })
-  type: string;
+  @Column({ type: 'enum', enum: ['IMAGE', 'TEXT'] })
+  type: 'IMAGE' | 'TEXT';
 
   @Column()
   txt: string;

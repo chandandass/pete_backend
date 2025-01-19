@@ -3,7 +3,6 @@ import {
   IsDateString,
   IsEnum,
   IsNotEmpty,
-  isNumber,
   IsNumber,
   IsOptional,
   IsString,

@@ -9,9 +9,12 @@ import {
   CurrentUserResponse,
 } from './dto/user.dto';
 import { ActionResponse, UserDto } from '../shared/dto/shared.dto';
+import { UserService } from './user.service';
 
 @Controller('user')
 export class UserController {
+  constructor(private readonly userService: UserService) {}
+
   @Get('current')
   async getCurrentUser(): Promise<CurrentUserResponse> {
     const dummyResponse: CurrentUserResponse = {
@@ -21,11 +24,11 @@ export class UserController {
       kids: [
         {
           name: 'Emli',
-          dateOfBirth: '2015-06-25',
+          date_of_birth: '2015-06-25',
           gender: 'FEMALE',
         },
       ],
-      reminderSchedules: {
+      ReminderSchedules: {
         update: '7:00',
         unanswered: '18:00',
         random: '8:00',
@@ -37,9 +40,10 @@ export class UserController {
 
   @Post('sign-up')
   async singUp(@Body() userData: SignUpDto): Promise<AuthResponse> {
-    console.log(userData.name.toLocaleLowerCase());
-    console.log('userData', userData);
-    return new AuthResponse('sing-up', '1234');
+    const user = await this.userService.signUp(userData);
+    console.log(user);
+    // generate token
+    return new AuthResponse('user created', 'jfkdlsj');
   }
 
   @Post('login')
