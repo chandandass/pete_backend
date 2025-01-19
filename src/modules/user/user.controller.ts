@@ -28,7 +28,7 @@ export class UserController {
           gender: 'FEMALE',
         },
       ],
-      reminder_schedules: {
+      ReminderSchedules: {
         update: '7:00',
         unanswered: '18:00',
         random: '8:00',
@@ -43,7 +43,7 @@ export class UserController {
     const user = await this.userService.signUp(userData);
     console.log(user);
     // generate token
-    return new AuthResponse("user created", "jfkdlsj")
+    return new AuthResponse('user created', 'jfkdlsj');
   }
 
   @Post('login')

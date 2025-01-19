@@ -2,8 +2,8 @@ import { Exclude } from 'class-transformer';
 import { IsString, IsArray, IsIn } from 'class-validator';
 import { BaseChildren, UserDto } from 'src/modules/shared/dto/shared.dto';
 
-// reminder_schedules DTO with class-validator
-export class reminder_schedulesDto {
+// ReminderSchedules DTO with class-validator
+export class ReminderSchedulesDto {
   @IsString()
   update: string;
 
@@ -65,7 +65,7 @@ export class CurrentUserResponse extends UserDto {
   id: number;
 
   kids: BaseChildren[];
-  reminder_schedules: reminder_schedulesDto;
+  ReminderSchedules: ReminderSchedulesDto;
 }
 
 // Auth Response DTO

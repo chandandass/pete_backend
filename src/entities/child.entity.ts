@@ -1,6 +1,6 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, BeforeInsert } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from 'typeorm';
 import { User } from './user.entity';
-let i = 1;
+
 @Entity('children')
 export class Child {
   @PrimaryGeneratedColumn()
@@ -17,9 +17,4 @@ export class Child {
 
   @ManyToOne(() => User, (user) => user.children)
   parent_user: User;
-
-  @BeforeInsert()
-  beforeInsert() {
-    console.log("in before insert: ", i++)
-  }
 }

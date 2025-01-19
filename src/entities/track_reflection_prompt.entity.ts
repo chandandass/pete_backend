@@ -2,7 +2,7 @@ import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from 'typeorm';
 import { User } from './user.entity';
 
 @Entity('track_reflection_prompt')
-export class track_reflection_prompt {
+export class TrackReflectionPrompt {
   @PrimaryGeneratedColumn()
   id: number;
 
@@ -15,6 +15,6 @@ export class track_reflection_prompt {
   @Column({ type: 'date', nullable: true })
   created_at: Date;
 
-  @ManyToOne(() => User, (user) => user.track_reflection_prompts)
+  @ManyToOne(() => User, (user) => user.TrackReflectionPrompts)
   user: User;
 }

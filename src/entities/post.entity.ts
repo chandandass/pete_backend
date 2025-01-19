@@ -19,16 +19,20 @@ export class Post {
   @Column({ type: 'text', nullable: true })
   description: string;
 
-  @Column({ type: 'enum', enum: ['IMAGE', 'TEXT'] })
+  @Column({ type: 'enum', enum: ['IMAGE', 'TEXT'], default: 'TEXT' })
   input_type: 'IMAGE' | 'TEXT';
 
   @Column({ type: 'enum', enum: ['FAMILY', 'KID', 'REFLECTION'] })
   prompt_type: 'FAMILY' | 'KID' | 'REFLECTION';
 
-  @Column({ type: 'enum', enum: ['ANSWERED', 'UNANSWERED'], nullable: true })
+  @Column({
+    type: 'enum',
+    enum: ['ANSWERED', 'UNANSWERED'],
+    default: 'UNANSWERED',
+  })
   status: 'ANSWERED' | 'UNANSWERED';
 
-  @Column({ type: 'date' })
+  @Column({ type: 'date', default: () => 'CURRENT_DATE' })
   created_at: Date;
 
   @Column({ type: 'date' })
@@ -37,7 +41,7 @@ export class Post {
   @Column({ type: 'date' })
   show_order_date: Date;
 
-  @Column({ type: 'number', nullable: true })
+  @Column({ type: 'integer', nullable: true })
   child_id: number;
 
   @ManyToOne(() => User, (user) => user.posts)
