@@ -13,7 +13,7 @@ import { User } from 'src/entities/user.entity';
 import { Child } from 'src/entities/child.entity';
 import { PromptHandler } from '../prompt/handler.service';
 import { Post } from 'src/entities/post.entity';
-import { ActionResponse, UserDto } from '../shared/dto/shared.dto';
+import { ActionResponse, AuthRequestDto } from '../shared/dto/shared.dto';
 import { PasswordService } from './password.service';
 
 @Injectable()
@@ -114,14 +114,14 @@ export class UserService {
   }
 
   async updateDetails(
-    userData: UserDto,
+    authRequestDto: AuthRequestDto,
     updateDetails: UpdateDetailsDto,
   ): Promise<UpdateUserResponse> {
-    console.log('Updating user details:', userData);
+    console.log('Updating authRequestDto details:', authRequestDto);
 
     // Find the user by the current email
     const user = await this.userRepository.findOne({
-      where: { id: userData.id },
+      where: { id: authRequestDto.id },
     });
     if (!user) {
       throw new Error('User not found');
@@ -154,11 +154,11 @@ export class UserService {
   }
 
   async updatePassword(
-    userData: UserDto,
+    authRequestDto: AuthRequestDto,
     passwords: UpdatePasswordDto,
   ): Promise<ActionResponse> {
     const user = await this.userRepository.findOne({
-      where: { id: userData.id },
+      where: { id: authRequestDto.id },
     });
 
     if (!user) {
@@ -185,17 +185,17 @@ export class UserService {
       { password: hashedPassword },
     );
 
-    console.log('Password updated successfully for user:', userData.id);
+    console.log('Password updated successfully for user:', authRequestDto.id);
 
     // Return success response
     return new ActionResponse('Password updated successfully');
   }
 
-  async delete(userData: UserDto): Promise<ActionResponse> {
-    console.log('Deleting user:', userData);
+  async delete(authRequestDto: AuthRequestDto): Promise<ActionResponse> {
+    console.log('Deleting user:', authRequestDto);
 
     const user = await this.userRepository.findOne({
-      where: { id: userData.id },
+      where: { id: authRequestDto.id },
     });
     if (!user) {
       throw new Error('User not found');
