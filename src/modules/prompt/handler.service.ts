@@ -42,14 +42,6 @@ export class PromptHandler {
     );
   }
 
-  public async getChildrenPrompts(user: User): Promise<Post[]> {
-    return this.getPrompts(
-      this.skp_repository,
-      user,
-      PromptGenerator.generateKidPrompts,
-    );
-  }
-
   private async getNextReflectionPrompt(
     currentPromptId: number,
   ): Promise<StaticReflectionPrompt> {
@@ -98,6 +90,14 @@ export class PromptHandler {
     return post;
   }
 
+  public async getChildrenPrompts(user: User): Promise<Post[]> {
+    return this.getPrompts(
+      this.skp_repository,
+      user,
+      PromptGenerator.generateKidPrompts,
+    );
+  }
+
   public async getReflectionPrompt(user: User): Promise<Post> {
     const currentDate = new Date();
     let expiredPrompt: TrackReflectionPrompt | null;
@@ -139,9 +139,16 @@ export class PromptHandler {
         return this.createPostFromPrompt(user, prompt, promptDate);
       }
 
-      const prompt = await this.srp_repository.findOne({
-        order: { id: 'ASC' },
-      });
+      const prompt = await this.srp_repository
+        .createQueryBuilder('srp')
+        .leftJoin('track_reflection_prompt', 'trp', 'trp.prompt_id = srp.id')
+        .where('trp.status != :status OR trp.status IS NULL', {
+          status: 'ARCHIVED',
+        })
+        .orderBy('srp.id', 'ASC')
+        .select(['srp.id', 'srp.txt'])
+        .getOne();
+
       if (!prompt) throw new Error('No prompts available');
 
       const track_reflection_prompt = new TrackReflectionPrompt();
@@ -155,6 +162,19 @@ export class PromptHandler {
       return this.createPostFromPrompt(user, prompt, currentDate);
     } catch (error: any) {
       throw new Error(`Error processing reflection prompt: ${error.message}`);
+    }
+  }
+
+  public async getAgePrompts(user: User, years: number = 19): Promise<Post[]> {
+    try {
+      return PromptGenerator.generateAgePrompts(user, years);
+    } catch (error: any) {
+      // Handle or log the error as needed
+      console.error(
+        `Error generating age prompts for user ${user.id}:`,
+        error.message,
+      );
+      throw new Error(`Failed to generate age prompts: ${error.message}`);
     }
   }
 

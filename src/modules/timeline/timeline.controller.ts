@@ -9,16 +9,19 @@ import {
   Request,
 } from '@nestjs/common';
 import {
+  DeleteTimelineDto,
   EditTimelineDto,
   GetTimelineResponse,
   PaginationInfoResponse,
   TimelineDto,
   TimestampDto,
 } from './dto/timeline.dto';
-import { ActionResponse } from '../shared/dto/shared.dto';
+import { ActionResponse, AuthRequestDto } from '../shared/dto/shared.dto';
+import { TimelineService } from './timeline.service';
 
 @Controller('timeline')
 export class TimelineController {
+  constructor(private readonly timelineService: TimelineService) {}
   @Get('pagination-info')
   async getTimelineInfo(
     @Request() req: any,
@@ -60,9 +63,9 @@ export class TimelineController {
 
   @Put(':id')
   async editTimelineEntry(
+    @Request() req: any,
     @Param('id') id: string,
     @Body() editTimeline: EditTimelineDto,
-    @Request() req: any,
   ): Promise<ActionResponse> {
     console.log(req, id, editTimeline);
     // Logic to edit the timeline entry
@@ -71,11 +74,14 @@ export class TimelineController {
 
   @Delete(':id')
   async deleteTimelineEntry(
-    @Param('id') id: string,
-    @Request() req: any,
+    @Request() authRequestDto: AuthRequestDto,
+    @Param('id') id: number, //
+    @Query() deleteTimelineDto: DeleteTimelineDto,
   ): Promise<ActionResponse> {
-    console.log(req, id);
-    // Logic to delete the timeline entry
-    return new ActionResponse('Timeline entry deleted');
+    return this.timelineService.deleteTimelineEntry(
+      id,
+      authRequestDto.id,
+      deleteTimelineDto,
+    );
   }
 }

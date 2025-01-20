@@ -10,8 +10,8 @@ import {
 } from 'class-validator';
 
 export class TimestampDto {
-  @IsString()
-  timestamp?: string;
+  @IsDateString()
+  timestamp: Date;
 }
 
 export class TimelineDto {
@@ -84,6 +84,10 @@ export class EditTimelineDto {
   media?: EditMedia[];
 }
 
+export class DeleteTimelineDto {
+  @IsEnum(['FAMILY', 'KID', 'REFLECTION'])
+  prompt_type: 'FAMILY' | 'KID' | 'REFLECTION';
+}
 export class GetTimelineResponse {
   prompts: PromptDto[];
 
