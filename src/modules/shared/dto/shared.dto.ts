@@ -19,7 +19,7 @@ export class BaseChildren {
   name: string;
 
   @IsDateString()
-  date_of_birth: string;
+  date_of_birth: Date;
 
   @IsIn(['MALE', 'FEMALE'])
   gender: 'MALE' | 'FEMALE';
