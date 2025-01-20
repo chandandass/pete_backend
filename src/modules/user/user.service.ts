@@ -193,5 +193,5 @@ export class UserService {
 
     await this.userRepository.remove(user);
     return new ActionResponse('User deleted successfully');
-  }
+  } 
 }
