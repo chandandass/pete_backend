@@ -95,9 +95,11 @@ export class UserService {
     return user;
   }
 
-  async getCurrentUser(userId: number): Promise<CurrentUserResponse> {
+  async getCurrentUser(
+    authRequestDto: AuthRequestDto,
+  ): Promise<CurrentUserResponse> {
     const user = await this.userRepository.findOne({
-      where: { id: userId },
+      where: { id: authRequestDto.id },
       relations: ['children', 'ReminderSchedules'],
     });
 
@@ -193,5 +195,5 @@ export class UserService {
 
     await this.userRepository.remove(user);
     return new ActionResponse('User deleted successfully');
-  } 
+  }
 }

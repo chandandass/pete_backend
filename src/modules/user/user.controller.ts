@@ -48,7 +48,7 @@ export class UserController {
   async getCurrentUser(
     @Request() authRequestDto: AuthRequestDto,
   ): Promise<CurrentUserResponse> {
-    return this.userService.getCurrentUser(authRequestDto.id);
+    return this.userService.getCurrentUser(authRequestDto);
   }
 
   @Put('details')
