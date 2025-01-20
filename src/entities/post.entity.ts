@@ -47,6 +47,6 @@ export class Post {
   @ManyToOne(() => User, (user) => user.posts)
   user: User;
 
-  @OneToMany(() => Media, (media) => media.post)
+  @OneToMany(() => Media, (media) => media.post, { cascade: true })
   media: Media[];
 }

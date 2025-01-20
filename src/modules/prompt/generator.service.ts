@@ -66,7 +66,18 @@ export class PromptGenerator {
     return celebrations;
   }
 
-  private static generateAgePrompts(user: User, years: number = 19): Post[] {
+  private static greetWithAge(name: string, age: number): string {
+    const yearWord = age === 1 ? 'year' : 'years';
+    return `${name}'s ${age} ${yearWord} old!`;
+  }
+
+  private static generateDateFromRTB(dob: Date, rtb: number): Date {
+    const date = new Date(dob);
+    const millisecondsInADay = 24 * 60 * 60 * 1000;
+    return new Date(date.getTime() + rtb * millisecondsInADay);
+  }
+
+  public static generateAgePrompts(user: User, years: number = 19): Post[] {
     const agePosts: Post[] = [];
 
     if (!user.children || user.children.length === 0) return agePosts;
@@ -87,23 +98,13 @@ export class PromptGenerator {
           last_update: date,
           input_type: 'IMAGE',
           prompt_type: 'FAMILY',
+          child_id: child.id,
           user,
         } as Post);
       }
     });
 
     return agePosts;
-  }
-
-  private static greetWithAge(name: string, age: number): string {
-    const yearWord = age === 1 ? 'year' : 'years';
-    return `${name}'s ${age} ${yearWord} old!`;
-  }
-
-  private static generateDateFromRTB(dob: Date, rtb: number): Date {
-    const date = new Date(dob);
-    const millisecondsInADay = 24 * 60 * 60 * 1000;
-    return new Date(date.getTime() + rtb * millisecondsInADay);
   }
 
   public static generateFamilyPrompts(
