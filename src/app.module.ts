@@ -5,6 +5,7 @@ import { join } from 'path';
 import { UserModule } from './modules/user/user.module';
 import { ChildrenModule } from './modules/children/children.module';
 import { TimelineModule } from './modules/timeline/timeline.module';
+import { AuthModule } from './modules/auth/auth.module';
 
 @Module({
   imports: [
@@ -30,6 +31,7 @@ import { TimelineModule } from './modules/timeline/timeline.module';
     UserModule,
     ChildrenModule,
     TimelineModule,
+    AuthModule,
   ],
   controllers: [],
   providers: [],

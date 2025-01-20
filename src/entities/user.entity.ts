@@ -28,24 +28,28 @@ export class User {
   })
   created_at: Date;
 
-  @OneToMany(() => Child, (child) => child.parent_user)
+  @OneToMany(() => Child, (child) => child.parent_user, { cascade: true })
   children: Child[];
 
-  @OneToMany(() => Post, (post) => post.user)
+  @OneToMany(() => Post, (post) => post.user, { cascade: true })
   posts: Post[];
 
   @OneToMany(
     () => ReminderSchedule,
     (ReminderSchedule) => ReminderSchedule.user,
+    { cascade: true },
   )
   ReminderSchedules: ReminderSchedule;
 
-  @OneToMany(() => Partnership, (partnership) => partnership.user)
+  @OneToMany(() => Partnership, (partnership) => partnership.user, {
+    cascade: true,
+  })
   partnerships: Partnership[];
 
   @OneToMany(
     () => TrackReflectionPrompt,
     (TrackReflectionPrompt) => TrackReflectionPrompt.user,
+    { cascade: true },
   )
   TrackReflectionPrompts: TrackReflectionPrompt[];
 }

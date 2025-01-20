@@ -13,7 +13,7 @@ import { User } from 'src/entities/user.entity';
 import { Child } from 'src/entities/child.entity';
 import { PromptHandler } from '../prompt/handler.service';
 import { Post } from 'src/entities/post.entity';
-import { ActionResponse, UserDto } from '../shared/dto/shared.dto';
+import { ActionResponse, AuthRequestDto } from '../shared/dto/shared.dto';
 import { PasswordService } from './password.service';
 
 @Injectable()
@@ -35,7 +35,6 @@ export class UserService {
       const hashedPassword = await this.passwordService.hashPassword(
         signUpData.password,
       );
-      // Create the User entity
       const user = this.userRepository.create({
         name: signUpData.name,
         email: signUpData.email,
@@ -43,10 +42,8 @@ export class UserService {
         relation: signUpData.relation,
       });
 
-      // Save the User entity first
       await queryRunner.manager.save(user);
 
-      // Create Child entities and associate them with the User
       const children = signUpData.children.map((child) =>
         this.childRepository.create({
           name: child.name,
@@ -56,19 +53,20 @@ export class UserService {
         }),
       );
 
-      // Save the Child entities
       await queryRunner.manager.save(children);
       user.children = children;
 
-      // Generate and save dynamic prompts
       const posts = await this.promptHandler.getAllPrompts(user);
-
       await queryRunner.manager.save(Post, posts);
+
       await queryRunner.commitTransaction();
       return user;
     } catch (error) {
       await queryRunner.rollbackTransaction();
-      throw error;
+      throw new HttpException(
+        'Error during signup process',
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
     } finally {
       await queryRunner.release();
     }
@@ -76,75 +74,73 @@ export class UserService {
 
   async login(loginData: LoginDto): Promise<User> {
     console.log('Logging in user:', loginData.email.toLocaleLowerCase());
-    console.log('Received loginData data:', loginData);
 
     const user = await this.userRepository.findOne({
       where: { email: loginData.email.toLocaleLowerCase() },
     });
+
+    if (!user) {
+      throw new HttpException('User not found', HttpStatus.NOT_FOUND);
+    }
+
     const isPasswordValid = await this.passwordService.comparePassword(
       loginData.password,
-      user?.password || '',
+      user.password,
     );
-    if (!user || !isPasswordValid) {
-      throw new Error('Invalid credentials');
+
+    if (!isPasswordValid) {
+      throw new HttpException('Invalid credentials', HttpStatus.UNAUTHORIZED);
     }
 
     return user;
   }
 
-  async getCurrentUser(userId: number): Promise<CurrentUserResponse> {
-    // Fetch the user, including children and reminder schedules
+  async getCurrentUser(
+    authRequestDto: AuthRequestDto,
+  ): Promise<CurrentUserResponse> {
     const user = await this.userRepository.findOne({
-      where: { id: userId },
-      relations: ['children', 'ReminderSchedules'], // Fetch related entities
+      where: { id: authRequestDto.id },
+      relations: ['children', 'ReminderSchedules'],
     });
 
     if (!user) {
-      throw new Error('User not found');
+      throw new HttpException('User not found', HttpStatus.NOT_FOUND);
     }
-
-    // Create the response DTO
-    // const currentUserResponse: CurrentUserResponse = {
-    //     ...user, // Spread the user data
-    //     children: user.children,
-    //     ReminderSchedules: user.ReminderSchedules as ReminderSchedule,
-    //   };
 
     return user;
   }
 
   async updateDetails(
-    userData: UserDto,
+    authRequestDto: AuthRequestDto,
     updateDetails: UpdateDetailsDto,
   ): Promise<UpdateUserResponse> {
-    console.log('Updating user details:', userData);
-
-    // Find the user by the current email
     const user = await this.userRepository.findOne({
-      where: { id: userData.id },
+      where: { id: authRequestDto.id },
     });
+
     if (!user) {
-      throw new Error('User not found');
+      throw new HttpException('User not found', HttpStatus.NOT_FOUND);
     }
 
-    // If the email is changing, check for conflicts
     if (updateDetails.email && updateDetails.email !== user.email) {
       const existingUser = await this.userRepository.findOne({
         where: { email: updateDetails.email },
       });
+
       if (existingUser) {
-        throw new Error('Email is already in use by another user');
+        throw new HttpException(
+          'Email is already in use by another user',
+          HttpStatus.BAD_REQUEST,
+        );
       }
     }
 
-    // Update only the fields provided in userData
     Object.assign(user, {
       name: updateDetails.name || user.name,
       relation: updateDetails.relation || user.relation,
-      email: updateDetails.email || user.email, // Update email if provided
+      email: updateDetails.email || user.email,
     });
 
-    // Save the updated user entity
     const updatedUser = await this.userRepository.save(user);
 
     return new UpdateUserResponse(
@@ -154,11 +150,11 @@ export class UserService {
   }
 
   async updatePassword(
-    userData: UserDto,
+    authRequestDto: AuthRequestDto,
     passwords: UpdatePasswordDto,
   ): Promise<ActionResponse> {
     const user = await this.userRepository.findOne({
-      where: { id: userData.id },
+      where: { id: authRequestDto.id },
     });
 
     if (!user) {
@@ -167,7 +163,7 @@ export class UserService {
 
     const isPasswordValid = await this.passwordService.comparePassword(
       passwords.currentPassword,
-      user?.password || '',
+      user.password,
     );
 
     if (!isPasswordValid) {
@@ -185,24 +181,19 @@ export class UserService {
       { password: hashedPassword },
     );
 
-    console.log('Password updated successfully for user:', userData.id);
-
-    // Return success response
     return new ActionResponse('Password updated successfully');
   }
 
-  async delete(userData: UserDto): Promise<ActionResponse> {
-    console.log('Deleting user:', userData);
-
+  async delete(authRequestDto: AuthRequestDto): Promise<ActionResponse> {
     const user = await this.userRepository.findOne({
-      where: { id: userData.id },
+      where: { id: authRequestDto.id },
     });
+
     if (!user) {
-      throw new Error('User not found');
+      throw new HttpException('User not found', HttpStatus.NOT_FOUND);
     }
 
     await this.userRepository.remove(user);
-
     return new ActionResponse('User deleted successfully');
   }
 }

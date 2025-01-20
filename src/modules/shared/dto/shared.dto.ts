@@ -24,7 +24,10 @@ export class BaseChildren {
   @IsIn(['MALE', 'FEMALE'])
   gender: 'MALE' | 'FEMALE';
 }
-// Action Response DTO
+export class AuthRequestDto {
+  id: number;
+}
+// Response dto
 export class ActionResponse {
   constructor(public message: string) {}
 }

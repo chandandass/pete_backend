@@ -1,4 +1,13 @@
-import { Body, Controller, Delete, Get, Post, Put } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Post,
+  Put,
+  Request,
+  UseGuards,
+} from '@nestjs/common';
 import {
   SignUpDto,
   LoginDto,
@@ -8,76 +17,66 @@ import {
   UpdateUserResponse,
   CurrentUserResponse,
 } from './dto/user.dto';
-import { ActionResponse, UserDto } from '../shared/dto/shared.dto';
+import { ActionResponse, AuthRequestDto } from '../shared/dto/shared.dto';
 import { UserService } from './user.service';
+import { AuthService } from '../auth/auth.service';
+import { AuthGuard } from '../auth/auth.guard';
 
 @Controller('user')
 export class UserController {
-  constructor(private readonly userService: UserService) {}
-
-  @Get('current')
-  async getCurrentUser(): Promise<CurrentUserResponse> {
-    const dummyResponse: CurrentUserResponse = {
-      name: 'Neel Patel',
-      relation: 'MOM',
-      email: 'neelpatel.6531@gmail.com',
-      children: [
-        {
-          id: 123,
-          name: 'Emli',
-          date_of_birth: new Date('2015-06-25'),
-          gender: 'FEMALE',
-        },
-      ],
-      ReminderSchedules: {
-        update: '7:00',
-        unanswered: '18:00',
-        random: '8:00',
-      },
-      id: -1,
-    };
-    return dummyResponse;
-  }
+  constructor(
+    private readonly userService: UserService,
+    private readonly authService: AuthService,
+  ) {}
 
   @Post('sign-up')
   async singUp(@Body() userData: SignUpDto): Promise<AuthResponse> {
     const user = await this.userService.signUp(userData);
-    console.log(user);
-    // generate token
-    return new AuthResponse('user created', 'jfkdlsj');
+    const token = await this.authService.generateToken({ id: user.id });
+    return new AuthResponse('user created successfully', token);
   }
 
   @Post('login')
   async login(@Body() userData: LoginDto): Promise<AuthResponse> {
-    console.log(userData.email.toLocaleLowerCase());
-    console.log('userData', userData);
-    console.log('typeofpass', typeof userData.password);
-    return new AuthResponse('login', '1234');
+    const user = await this.userService.login(userData);
+    const token = await this.authService.generateToken({ id: user.id });
+    return new AuthResponse('user logged in successfully', token);
+  }
+
+  @Get('current')
+  @UseGuards(AuthGuard)
+  async getCurrentUser(
+    @Request() authRequestDto: AuthRequestDto,
+  ): Promise<CurrentUserResponse> {
+    return this.userService.getCurrentUser(authRequestDto);
   }
 
   @Put('details')
+  @UseGuards(AuthGuard)
   async updateDetails(
+    @Request() authRequestDto: AuthRequestDto,
     @Body() userData: UpdateDetailsDto,
   ): Promise<UpdateUserResponse> {
     console.log(userData);
-    return new UpdateUserResponse('details', {
-      name: '',
-      email: '',
-      relation: '',
-    });
+    return await this.userService.updateDetails(authRequestDto, userData);
   }
 
   @Put('password')
+  @UseGuards(AuthGuard)
   async updatePassword(
+    @Request() authRequestDto: AuthRequestDto,
     @Body() passwords: UpdatePasswordDto,
   ): Promise<ActionResponse> {
     console.log(passwords);
-    return new ActionResponse('updatePassword');
+    return this.userService.updatePassword(authRequestDto, passwords);
   }
 
   @Delete('delete')
-  async delete(@Body() userData: UserDto): Promise<ActionResponse> {
-    console.log(userData);
-    return new ActionResponse('deleteUser');
+  @UseGuards(AuthGuard)
+  async delete(
+    @Request() authRequestDto: AuthRequestDto,
+  ): Promise<ActionResponse> {
+    console.log(authRequestDto);
+    return await this.userService.delete(authRequestDto);
   }
 }
