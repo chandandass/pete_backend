@@ -4,6 +4,8 @@ import { Connection, Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from 'src/entities/user.entity';
 import { Child } from 'src/entities/child.entity';
+import { PromptHandler } from '../prompt/handler.service';
+import { Post } from 'src/entities/post.entity';
 
 @Injectable()
 export class UserService {
@@ -11,7 +13,8 @@ export class UserService {
     @InjectRepository(User) private readonly userRepository: Repository<User>,
     @InjectRepository(Child)
     private readonly childRepository: Repository<Child>,
-    private readonly connection: Connection, // Injecting connection
+    private readonly connection: Connection,
+    private readonly promptHandler: PromptHandler,
   ) {}
 
   async signUp(signUpData: SignUpDto): Promise<User> {
@@ -42,17 +45,18 @@ export class UserService {
 
       // Save the Child entities
       await queryRunner.manager.save(children);
+      user.children = children;
 
-      // Commit the transaction
+      // Generate and save dynamic prompts
+      const posts = await this.promptHandler.getAllPrompts(user);
+
+      await queryRunner.manager.save(Post, posts);
       await queryRunner.commitTransaction();
-
       return user;
     } catch (error) {
-      // Rollback the transaction in case of an error
       await queryRunner.rollbackTransaction();
       throw error;
     } finally {
-      // Release the query runner to free up resources
       await queryRunner.release();
     }
   }
