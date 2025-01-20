@@ -38,7 +38,7 @@ export class User {
     () => ReminderSchedule,
     (ReminderSchedule) => ReminderSchedule.user,
   )
-  ReminderSchedules: ReminderSchedule[];
+  ReminderSchedules: ReminderSchedule;
 
   @OneToMany(() => Partnership, (partnership) => partnership.user)
   partnerships: Partnership[];

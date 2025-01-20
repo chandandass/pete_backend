@@ -10,11 +10,11 @@ export class ReminderSchedule {
   user: User;
 
   @Column({ type: 'time' })
-  update_time: string;
+  update: string;
 
   @Column({ type: 'time' })
-  unanswered_time: string;
+  unanswered: string;
 
   @Column({ type: 'time' })
-  random_time: string;
+  random: string;
 }

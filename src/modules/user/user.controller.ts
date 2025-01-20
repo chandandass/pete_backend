@@ -21,10 +21,11 @@ export class UserController {
       name: 'Neel Patel',
       relation: 'MOM',
       email: 'neelpatel.6531@gmail.com',
-      kids: [
+      children: [
         {
+          id: 123,
           name: 'Emli',
-          date_of_birth: '2015-06-25',
+          date_of_birth: new Date('2015-06-25'),
           gender: 'FEMALE',
         },
       ],

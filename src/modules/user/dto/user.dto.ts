@@ -1,5 +1,6 @@
 import { Exclude } from 'class-transformer';
-import { IsString, IsArray, IsIn } from 'class-validator';
+import { IsString, IsArray, IsIn, IsEmail } from 'class-validator';
+import { Children } from 'src/modules/children/dto/children.dto';
 import { BaseChildren, UserDto } from 'src/modules/shared/dto/shared.dto';
 
 // ReminderSchedules DTO with class-validator
@@ -19,7 +20,7 @@ export class SignUpDto {
   @IsString()
   name: string;
 
-  @IsString()
+  @IsEmail()
   email: string;
 
   @IsIn(['MOM', 'DAD']) // Ensures the value is either 'MOM' or 'DAD'
@@ -34,7 +35,7 @@ export class SignUpDto {
 
 // Login DTO
 export class LoginDto {
-  @IsString()
+  @IsEmail()
   email: string;
 
   @IsString()
@@ -46,8 +47,12 @@ export class UpdateDetailsDto {
   @IsString()
   name: string;
 
-  @IsString()
+  @IsEmail()
   email: string;
+
+  @IsString()
+  @IsIn(['MOM', 'DAD'])
+  relation: string;
 }
 
 // Update Password DTO
@@ -61,10 +66,10 @@ export class UpdatePasswordDto {
 
 // CurrentUserResponse DTO extending UserDto but excluding `id`
 export class CurrentUserResponse extends UserDto {
-  @Exclude() // Exclude the `id` field in the CurrentUserResponse response
+  @Exclude()
   id: number;
 
-  kids: BaseChildren[];
+  children: Children[];
   ReminderSchedules: ReminderSchedulesDto;
 }
 
