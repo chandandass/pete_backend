@@ -37,17 +37,19 @@ export class User {
   @OneToMany(
     () => ReminderSchedule,
     (ReminderSchedule) => ReminderSchedule.user,
-    { cascade: true }
+    { cascade: true },
   )
   ReminderSchedules: ReminderSchedule;
 
-  @OneToMany(() => Partnership, (partnership) => partnership.user, { cascade: true })
+  @OneToMany(() => Partnership, (partnership) => partnership.user, {
+    cascade: true,
+  })
   partnerships: Partnership[];
 
   @OneToMany(
     () => TrackReflectionPrompt,
     (TrackReflectionPrompt) => TrackReflectionPrompt.user,
-    { cascade: true }
+    { cascade: true },
   )
   TrackReflectionPrompts: TrackReflectionPrompt[];
 }
