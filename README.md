@@ -1,50 +1,38 @@
-# NestJS TypeScript Starter Repository
+# Importing CSV Data into PostgreSQL Tables using pgAdmin 4
 
-[Nest](https://github.com/nestjs/nest) is a progressive Node.js framework for building efficient, reliable, and scalable server-side applications.
+This guide explains how to import CSV data into the following PostgreSQL tables using pgAdmin 4:
 
-## Description
+*   `static_kid_prompt`
+*   `static_family_prompt`
+*   `static_reflection_prompt`
 
-This repository serves as a starter template for developing applications using the NestJS framework with TypeScript.
+## Prerequisites
 
-## Requirements
+*   PostgreSQL installed and running
+*   pgAdmin 4 installed
+*   CSV files containing data for import
 
-- **Node.js**: `>= 20.10.0`
-- **Yarn**: `>= 1.22.21`
+## Steps to Import Data
 
-Ensure you have the specified versions installed to avoid compatibility issues.
+1.  **Open pgAdmin 4 and connect to the database.**
 
-## Project setup
+2.  **Navigate to the table section and expand it.**
 
-```bash
-$ yarn install
-```
+3.  **Right-click on the specific table** (`static_kid_prompt`, `static_family_prompt`, or `static_reflection_prompt`).
 
-## Compile and run the project
+4.  **(Optional) Truncate the table if it already contains data:**  If you want to replace existing data, execute the following SQL command in the query tool before importing:
 
-```bash
-# development
-$ yarn run start
+    ```sql
+    TRUNCATE TABLE table_name;
+    ```
+    (Replace `table_name` with the actual table name.)
 
-# watch mode
-$ yarn run start:dev
+5.  **Select "Import/Export Data" from the context menu.**
 
-# production mode
-$ yarn run start:prod
-```
+6.  **In the Import/Export Data window:**
+    *   Choose the **Import** option.
+    *   Click **Filename** and select the CSV file.
+    *   Set **Format** to **CSV**.
+    *   Click **OK** to start the import process.
 
-## Run tests
-
-```bash
-# unit tests
-$ yarn run test
-
-# e2e tests
-$ yarn run test:e2e
-
-# test coverage
-$ yarn run test:cov
-```
-
-## License
-
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+7.  **Once the process is complete, the data will be available in the respective table.**
