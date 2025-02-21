@@ -4,7 +4,7 @@ This guide explains how to import CSV data into the following PostgreSQL tables 
 
 *   `static_kid_prompt`
 *   `static_family_prompt`
-*   `static_reflection_prompt`
+*   `static_reflection-prompt`
 
 ## Prerequisites
 
