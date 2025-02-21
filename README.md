@@ -18,7 +18,7 @@ This guide explains how to import CSV data into the following PostgreSQL tables 
 
 2.  **Navigate to the table section and expand it.**
 
-3.  **Right-click on the specific table** (`static_kid_prompt`, `static_family_prompt`, or `static_reflection_prompt`).
+3.  **Right-click on the specific table** (`static_kid_prompt`, `static_family_prompt`, or `static_reflection-prompt`).
 
 4.  **(Optional) Truncate the table if it already contains data:**  If you want to replace existing data, execute the following SQL command in the query tool before importing:
 
